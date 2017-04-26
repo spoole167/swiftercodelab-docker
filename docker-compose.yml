@@ -1,0 +1,21 @@
+version: '2'
+
+services:
+  db:
+    image: couchdb:1.6.1
+    ports:
+      - "5984:5984"
+    volumes:
+      - ./.db:/usr/local/var/lib/couchdb
+
+  server:
+    image: swiftercodelab:latest
+    command: start
+    ports:
+      - "8080:8080"
+    volumes:
+      - .:/code
+    depends_on:
+      - db
+    environment:
+      DBURL: http://db:5984/
